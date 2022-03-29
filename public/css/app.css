@@ -18,16 +18,41 @@ body nav li:last-child a:hover {
 body section.hero {
   background-color: #f8f8f8;
 }
-body .size {
+body .btn-primary {
+  background-color: #fe5f1e;
+  transition: all 0.5s ease-in-out;
+}
+body .btn-primary:hover {
+  background-color: #fff;
+  color: #fe5f1e;
+  border: 2px solid #fe5f1e;
+}
+body section.cards-sec .size {
   background-color: #f8f8f8;
 }
-body .add-to-cart {
+body section.cards-sec .add-to-cart {
   border: 2px solid #fe5f1e;
   color: #fe5f1e;
   transition: all 0.5s ease-in-out;
 }
-body .add-to-cart:hover {
+body section.cards-sec .add-to-cart:hover {
   background-color: #fe5f1e;
   border: 2px solid #fff;
   color: #fff;
+}
+body section.cart {
+  background-color: #f8f8f8;
+}
+body section.cart .amount {
+  color: #fe5f1e;
+}
+body section.login {
+  background-color: #f8f8f8;
+  min-height: calc(100vh - 86px);
+}
+body section.login a {
+  color: #fe5f1e;
+}
+body section.login a:hover {
+  color: #b23301;
 }

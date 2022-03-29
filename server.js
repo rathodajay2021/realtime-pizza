@@ -10,12 +10,22 @@ app.listen(PORT,()=>{
 })
 
 app.use(express.static('public'));  //tell server that form where you get static file like css, image, etc...
-app.use((req,res,next)=> {       // set the layout
-    expressLayout
-    next()
-})     
+app.use(expressLayout) 
+
 app.set('view engine','ejs')    //starting the view engine to read .ejs files.
 
 app.get(`/`,(req, res)=>{
     res.render('home')
+})
+
+app.get(`/cart`,(req, res)=>{
+    res.render('./customers/cart')
+})
+
+app.get(`/login`,(req, res)=>{
+    res.render('./authentication/login')
+})
+
+app.get(`/register`,(req, res)=>{
+    res.render('./authentication/register')
 })

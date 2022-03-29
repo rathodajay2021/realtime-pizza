@@ -25,18 +25,47 @@ body{
         background-color: $secondary;
     }
 
-    .size{
-        background-color: $secondary;
-    }
-
-    .add-to-cart{
-        border: 2px solid $primary;
-        color: $primary;
+    .btn-primary{
+        background-color: $primary;
         transition: $smooth;
         &:hover{
-            background-color: $primary;
-            border: 2px solid $pure;
-            color: $pure;
+            background-color: $pure;
+            color: $primary;
+            border: 2px solid $primary;
+        }
+    }
+
+    section.cards-sec{
+        .size{
+            background-color: $secondary;
+        }
+        .add-to-cart{
+            border: 2px solid $primary;
+            color: $primary;
+            transition: $smooth;
+            &:hover{
+                background-color: $primary;
+                border: 2px solid $pure;
+                color: $pure;
+            }
+        }
+    }
+
+    section.cart{
+        background-color: $secondary;
+        .amount{
+            color: $primary;
+        }
+    }
+
+    section.login{
+        background-color: $secondary;
+        min-height: calc(100vh - 86px);
+        a{
+            color: $primary;
+            &:hover{
+                color: $primary-hover;
+            }
         }
     }
 }
