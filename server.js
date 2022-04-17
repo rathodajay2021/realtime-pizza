@@ -1,31 +1,50 @@
 const express = require('express')
-const ejs = require('ejs')
-const expressLayout  = require('express-ejs-layouts')
+const ejs = require('ejs')  //to accept the ejs files
+const expressLayout  = require('express-ejs-layouts')   //put one layout for all pages like navbar for all pages
+const mongoose = require('mongoose')
+const session = require('express-session')  //create the session
+const flash = require('express-flash')  //create the cookie
+const MongoDbStore = require('connect-mongo')   //to store cookie in mongodb database
+require('dotenv').config()  //to create dotnev file 
+
+const webRouter = require('./routes/web')
 
 const app = express()
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 4000
+const URL = process.env.DataBase_URL 
 
-app.listen(PORT,()=>{
-    console.log(`server is running succefully on port no ${PORT}`)
+// mongoose.connect(URL,{useNewUrlParser: true  , useCreateIndex: true , useUnifiedTopology : true, useFindAndModify: true})
+mongoose.connect(URL,{useNewUrlParser: true  , useUnifiedTopology : true})      //connect database
+    .then(res => app.listen(PORT, console.log(`server is started on port ${PORT}`)))
+    .catch(err => console.log(err))
+
+app.use(express.json())  //to get data at req.body(in post request)
+
+//session store
+const mongoStore = MongoDbStore.create({
+    // mongooseConnection : mongoose.connection,
+    mongoUrl: process.env.DataBase_URL,
+    collection: 'sessions'
 })
+
+//session config
+app.use(session({
+    secret: process.env.SECRET_KEY,
+    resave: false,
+    store: mongoStore,
+    saveUninitialized: false,
+    cookie: { maxAge: 1000 * 60 * 60 * 24}
+}))
+
+app.use(flash())
 
 app.use(express.static('public'));  //tell server that form where you get static file like css, image, etc...
 app.use(expressLayout) 
 
 app.set('view engine','ejs')    //starting the view engine to read .ejs files.
-
-app.get(`/`,(req, res)=>{
-    res.render('home')
+app.use((req,res,next)=>{
+    res.locals.session = req.session
+    next()
 })
 
-app.get(`/cart`,(req, res)=>{
-    res.render('./customers/cart')
-})
-
-app.get(`/login`,(req, res)=>{
-    res.render('./authentication/login')
-})
-
-app.get(`/register`,(req, res)=>{
-    res.render('./authentication/register')
-})
+app.use('/', webRouter)
