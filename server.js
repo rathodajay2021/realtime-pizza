@@ -6,6 +6,7 @@ const session = require('express-session')  //create the session
 const flash = require('express-flash')  //create the cookie
 const MongoDbStore = require('connect-mongo')   //to store cookie in mongodb database
 require('dotenv').config()  //to create dotnev file 
+const passport = require('passport')
 
 const webRouter = require('./routes/web')
 
@@ -18,6 +19,7 @@ mongoose.connect(URL,{useNewUrlParser: true  , useUnifiedTopology : true})      
     .then(res => app.listen(PORT, console.log(`server is started on port ${PORT}`)))
     .catch(err => console.log(err))
 
+app.use(express.urlencoded({extended: false})) // to get data when it is coming thorough url encoded method
 app.use(express.json())  //to get data at req.body(in post request)
 
 //session store
@@ -36,14 +38,21 @@ app.use(session({
     cookie: { maxAge: 1000 * 60 * 60 * 24}
 }))
 
+//passport config
+const passportInit = require('./config/passport')
+passportInit(passport)
+app.use(passport.initialize())
+app.use(passport.session())
+
 app.use(flash())
 
 app.use(express.static('public'));  //tell server that form where you get static file like css, image, etc...
 app.use(expressLayout) 
 
 app.set('view engine','ejs')    //starting the view engine to read .ejs files.
-app.use((req,res,next)=>{
+app.use((req,res,next)=>{   //global middleware(by this you can asscess session anywhere)
     res.locals.session = req.session
+    res.locals.user = req.user
     next()
 })
 
