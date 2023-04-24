@@ -12,16 +12,19 @@
                 <span class="capitalize text-lg font-bold">total amount:</span>
                 <span class="font-bold text-2xl amount ml-2">₹<%= session.cart.totalPrice %></span>
             </div>
-            <div class="">
-                <form action="">
-                    <input type="text" name="" id="" class="border border-gray-400 p-2 pl-4 mb-2 rounded-full w-1/2" placeholder="Phone Number">
-                    <input type="text" name="" id="" class="border border-gray-400 p-2 pl-4 mb-2 rounded-full w-1/2" placeholder="Address">
-                    <div class="">
-                        <!-- <button type="submit" class="btn-primary px-6 py-2 text-white rounded-full font-bold mt-6 capitalize">order now</button> -->
-                    </div>
-                </form>
-            </div>
-            <a href="" class="inline-block cursor-pointer btn-primary px-6 py-2 text-white rounded-full font-bold mt-6">Login to contiue</a>
+            <% if(user){%>
+                <div class="">
+                    <form action="/orders" method="post">
+                        <input type="text" name="phone" id="" class="border border-gray-400 p-2 pl-4 mb-2 rounded-full w-1/2" placeholder="Phone Number">
+                        <input type="text" name="address" id="" class="border border-gray-400 p-2 pl-4 mb-2 rounded-full w-1/2" placeholder="Address">
+                        <div class="">
+                            <button type="submit" class="btn-primary px-6 py-2 text-white rounded-full font-bold mt-6 capitalize">order now</button>
+                        </div>
+                    </form>
+                </div>
+            <% } else { %>
+                <a href="/login" class="inline-block cursor-pointer btn-primary px-6 py-2 text-white rounded-full font-bold mt-6">Login to contiue</a>
+            <% } %>
         </div>
     </div>
     <% }else{ %>

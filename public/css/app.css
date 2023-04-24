@@ -340,3 +340,6 @@ body .noty_theme__mint {
   border-radius: 50px !important;
   padding-left: 8px !important;
 }
+body a.link {
+  color: #fe5f1e;
+}
